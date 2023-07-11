@@ -12,16 +12,33 @@
     <script src="//unpkg.com/alpinejs" defer></script>
   </head>
 
-  <body>
+  <body x-data="data">
     <header>
       <div class="grid grid-cols-3 items-center gap-4 px-24 pt-6">
         <div>Bonsai</div>
 
-        <nav class="flex items-center justify-center gap-10 text-lg">
-          <a href="">Product</a>
-          <a href="">Templates</a>
-          <a href="">Pricing</a>
-          <a href="">Reviews</a>
+        <nav class="flex items-center justify-center gap-12 text-lg">
+          <template x-for="item in headerMenu">
+            <div class="relative" x-data="dropdown">
+              <div class="flex items-center">
+                <a href="" x-text="item.title"></a>
+                <template x-if="item.options?.length > 0">
+                  <button class="ml-3" @click="toggle">˅</button>
+                </template>
+              </div>
+              <template x-if="item.options?.length > 0">
+                <div
+                  class="right-100 top-100 absolute flex w-52 flex-col gap-4 rounded bg-white px-4 py-3 transition-all"
+                  x-show="open"
+                  x-transition
+                >
+                  <template x-for="item in item.options">
+                    <a href="" x-text="item.title"></a>
+                  </template>
+                </div>
+              </template>
+            </div>
+          </template>
         </nav>
 
         <div class="flex justify-end gap-4">
@@ -58,43 +75,7 @@
             >
           </div>
         </div>
-        <div
-          class="mt-16 grid grid-cols-2 gap-12 xl:grid-cols-3"
-          x-data="{
-          plans: [
-          {
-            title: 'Workflow',
-            price: 19,
-            perks: [
-              'Unlimited Clients and Projects',
-              'Proposals',
-              'Contracts',
-              'Invoicing & Payments',
-              'Client CRM',
-              'Project Management',
-              'Task & Time Tracking',
-              'iOS, Android, Chrome, & Mac Apps'
-            ],
-            popular: false,
-          },
-          {
-            title: 'Workflow Plus',
-            price: 29,
-            perks: [
-              'Everything in Workflow, plus...',
-              'White-labeled client experience',
-              'Client forms and questionaires',
-              'Workflow automations',
-              'Subcontracting (client mode)',
-              'Calendly integration',
-              'Client portal',
-              'Priority support'
-            ],
-            popular: true,
-          }
-          ]
-        }"
-        >
+        <div class="mt-16 grid grid-cols-2 gap-12 xl:grid-cols-3">
           <template x-for="plan in plans">
             <div
               class="relative overflow-hidden border border-gray-200 bg-white p-14 shadow"
@@ -111,7 +92,15 @@
                   class="list-inside list-['✓'] space-y-4 marker:font-bold marker:text-theme-400"
                 >
                   <template x-for="perk in plan.perks">
-                    <li class="marker:mr-2 marker:block" x-text="' '+perk"></li>
+                    <li>
+                      <span x-text="' '+perk.content"></span>
+                      <template x-if="perk.new">
+                        <span
+                          class="ml-2 bg-[#f8db62] px-1 py-px text-xs font-semibold uppercase text-white"
+                          >New</span
+                        >
+                      </template>
+                    </li>
                   </template>
                 </ul>
               </div>
@@ -124,6 +113,48 @@
                   class="absolute right-16 top-14 translate-x-[50%] rotate-45 bg-theme-400 py-2 pl-20 pr-24 font-bold uppercase text-white"
                 >
                   Most Popular
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </section>
+
+      <section class="py-24" id="extras">
+        <h1 class="text-center text-3xl">
+          Super charge your work with add-ons
+        </h1>
+
+        <div class="mt-16 flex flex-col gap-4">
+          <template x-for="extra in extras">
+            <div
+              class="flex items-center rounded bg-white p-10 shadow-lg shadow-gray-100"
+            >
+              <div class="mr-auto">
+                <div class="text-2xl font-semibold" x-text="extra.title"></div>
+                <p class="opacity-75" x-text="extra.description"></p>
+                <template x-if="extra.link">
+                  <div class="mt-2">
+                    <a
+                      class="text-sm font-semibold uppercase text-theme-400"
+                      :href="extra.link"
+                      >Learn More</a
+                    >
+                  </div>
+                </template>
+              </div>
+              <template x-if="extra.price == 0"
+                ><span class="text-3xl font-semibold">Free</span></template
+              >
+              <template x-if="extra.price > 0">
+                <div class="flex flex-col items-center gap-y-1">
+                  <div
+                    class="text-4xl font-semibold"
+                    x-text="'$'+extra.price"
+                  ></div>
+                  <div class="text-sm font-bold uppercase opacity-75">
+                    /Month
+                  </div>
                 </div>
               </template>
             </div>
@@ -208,5 +239,93 @@
         </div>
       </div>
     </footer>
+
+    <script>
+      function data() {
+        return {
+          headerMenu: [
+            {
+              title: "Product",
+              options: [
+                { title: "Menu Option 1", options: [] },
+                { title: "Menu Option 2", options: [] },
+              ],
+            },
+            {
+              title: "Templates",
+              options: [
+                { title: "Menu Option 1", options: [] },
+                { title: "Menu Option 2", options: [] },
+              ],
+            },
+            { title: "Pricing" },
+            { title: "Reviews" },
+          ],
+          plans: [
+            {
+              title: "Workflow",
+              price: 19,
+              perks: [
+                { content: "Unlimited Clients and Projects" },
+                { content: "Proposals" },
+                { content: "Contracts" },
+                { content: "Invoicing & Payments" },
+                { content: "Client CRM" },
+                { content: "Project Management" },
+                { content: "Task & Time Tracking" },
+                { content: "iOS, Android, Chrome, & Mac Apps" },
+              ],
+              popular: false,
+            },
+            {
+              title: "Workflow Plus",
+              price: 29,
+              perks: [
+                { content: "Everything in Workflow, plus..." },
+                { content: "White-labeled client experience" },
+                { content: "Client forms and questionaires", new: true },
+                { content: "Workflow automations" },
+                { content: "Subcontracting (client mode)" },
+                { content: "Calendly integration" },
+                { content: "Client portal" },
+                { content: "Priority support" },
+              ],
+              popular: true,
+            },
+          ],
+          extras: [
+            {
+              title: "Collaborators",
+              description:
+                "Invite other users to specific projects for limited access and functionality.",
+              price: 0,
+            },
+            {
+              title: "Partners",
+              description:
+                "Invite other users for full account access and company management.",
+              price: 9,
+            },
+            {
+              title: "Collaborators",
+              description:
+                "Track wxpenses, identify write-offs, and estimate quarterly taxes easily.",
+              price: 10,
+              link: " ",
+            },
+          ],
+        };
+      }
+
+      document.addEventListener("alpine:init", () => {
+        Alpine.data("dropdown", () => ({
+          open: false,
+
+          toggle() {
+            this.open = !this.open;
+          },
+        }));
+      });
+    </script>
   </body>
 </html>
