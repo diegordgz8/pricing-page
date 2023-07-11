@@ -22,24 +22,23 @@
   }
 
   .btn-green {
-    background: #00b289;
+    background: theme(colors.theme.500);
     color: white;
   }
 
   .btn-white {
     background: white;
-    border: solid 1px #00b289;
-    color: #00b289;
+    border: solid 1px theme(colors.theme.500);
+    color: theme(colors.theme.500);
   }
 
   .btn-green:hover {
-    background: white;
-    border: solid 1px #00b289;
-    color: #00b289;
+    background: theme(colors.theme.600);
+    border: solid 1px theme(colors.theme.600);
   }
 
   .btn-white:hover {
-    background: #00b289;
+    background: theme(colors.theme.500);
     color: white;
   }
 
@@ -66,7 +65,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #00b289;
+    background-color: theme(colors.theme.500);
     -webkit-transition: 0.4s;
     transition: 0.4s;
   }
@@ -84,7 +83,7 @@
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #00b289;
+    box-shadow: 0 0 1px theme(colors.theme.500);
   }
 
   input:checked + .slider:before {
@@ -107,10 +106,14 @@
   }
 
   .footer-list {
-    @apply flex flex-col gap-1.5 opacity-70;
+    @apply flex flex-col gap-1.5 text-gray-500;
+  }
+
+  .footer-list a {
+    @apply transition-colors hover:text-gray-600;
   }
 
   footer .active {
-    color: theme(colors.theme.400);
+    color: theme(colors.theme.500);
   }
 }

@@ -8,14 +8,27 @@
     <!-- <link href="/dist/css/styles.css" rel="stylesheet"> -->
     <link href="/dist/css/dev.css" rel="stylesheet" />
 
-    <script src="js/scripts.js" defer></script>
+    <!-- Alpine Plugins -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"
+    ></script>
+    <!-- Alpine Core -->
     <script src="//unpkg.com/alpinejs" defer></script>
+
+    <!-- Fontawesome -->
+    <script
+      src="https://kit.fontawesome.com/dd05174127.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="js/scripts.js" defer></script>
   </head>
 
   <body x-data="data">
     <header>
       <div class="grid grid-cols-3 items-center gap-4 px-24 pt-6">
-        <div>Bonsai</div>
+        <img src="/assets/img/bonsai-logo.svg" />
 
         <nav class="flex items-center justify-center gap-12 text-lg">
           <template x-for="item in headerMenu">
@@ -23,7 +36,9 @@
               <div class="flex items-center">
                 <a href="" x-text="item.title"></a>
                 <template x-if="item.options?.length > 0">
-                  <button class="ml-3" @click="toggle">˅</button>
+                  <button class="ml-3" @click="toggle">
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
                 </template>
               </div>
               <template x-if="item.options?.length > 0">
@@ -50,7 +65,9 @@
 
     <div class="container mt-36">
       <section id="plans">
-        <div class="flex items-center justify-between">
+        <div
+          class="flex flex-col items-center justify-between gap-y-6 lg:flex-row"
+        >
           <h1 class="text-4xl">Plans & Pricing</h1>
           <div
             class="flex items-center justify-between gap-8"
@@ -75,7 +92,10 @@
             >
           </div>
         </div>
-        <div class="mt-16 grid grid-cols-2 gap-12 xl:grid-cols-3">
+
+        <div
+          class="mt-16 flex flex-col gap-12 lg:grid lg:grid-cols-2 xl:grid-cols-3"
+        >
           <template x-for="plan in plans">
             <div
               class="relative overflow-hidden border border-gray-200 bg-white p-14 shadow"
@@ -86,10 +106,10 @@
                 <span class="text-6xl font-semibold" x-text="plan.price"></span>
                 <span class="text-xl uppercase">/Month</span>
               </div>
-              <hr class="mt-10 h-[3px] bg-theme-400 opacity-60" />
+              <hr class="mt-10 h-[3px] bg-theme-500 opacity-60" />
               <div class="plan-description mt-10">
                 <ul
-                  class="list-inside list-['✓'] space-y-4 marker:font-bold marker:text-theme-400"
+                  class="list-inside list-['✓'] space-y-4 marker:font-bold marker:text-theme-500"
                 >
                   <template x-for="perk in plan.perks">
                     <li>
@@ -104,13 +124,13 @@
                   </template>
                 </ul>
               </div>
-              <button class="btn btn-green mt-12 w-full py-6">
+              <button class="btn btn-green mt-12 w-full px-16 py-6">
                 Start Free
               </button>
 
               <template x-if="plan.popular">
                 <div
-                  class="absolute right-16 top-14 translate-x-[50%] rotate-45 bg-theme-400 py-2 pl-20 pr-24 font-bold uppercase text-white"
+                  class="absolute right-16 top-14 translate-x-[50%] rotate-45 bg-theme-500 py-2 pl-20 pr-24 font-bold uppercase text-white"
                 >
                   Most Popular
                 </div>
@@ -128,7 +148,7 @@
         <div class="mt-16 flex flex-col gap-4">
           <template x-for="extra in extras">
             <div
-              class="flex items-center rounded bg-white p-10 shadow-lg shadow-gray-100"
+              class="flex flex-col items-center rounded bg-white p-10 shadow-lg shadow-gray-100 lg:flex-row"
             >
               <div class="mr-auto">
                 <div class="text-2xl font-semibold" x-text="extra.title"></div>
@@ -136,7 +156,7 @@
                 <template x-if="extra.link">
                   <div class="mt-2">
                     <a
-                      class="text-sm font-semibold uppercase text-theme-400"
+                      class="text-sm font-semibold uppercase text-theme-500"
                       :href="extra.link"
                       >Learn More</a
                     >
@@ -161,28 +181,68 @@
           </template>
         </div>
       </section>
+
+      <section class="rounded bg-theme-50 px-14 py-20" id="banner">
+        <div class="flex items-center justify-between">
+          <div class="text-4xl">
+            <p>It's <span class="text-theme-500">your</span> business.</p>
+            <p>We're here to help it grow.</p>
+          </div>
+          <button class="btn btn-green px-16 py-6">Start Free</button>
+        </div>
+      </section>
+
+      <section class="py-24" id="faq">
+        <h1 class="text-center text-3xl text-theme-500">
+          Frequently Asked Questions
+        </h1>
+
+        <div class="mt-8">
+          <template x-for="faq in faqs">
+            <div x-data="{open: false}">
+              <h2>
+                <button
+                  class="flex w-full items-center justify-between py-2 text-2xl font-semibold transition-colors hover:text-theme-500"
+                  :aria-expanded="open"
+                  @click="open = !open;"
+                >
+                  <span x-text="faq.question"></span>
+                  <i class="fas fa-chevron-down opacity-50"></i>
+                </button>
+              </h2>
+              <div class="text-lg" x-show="open" x-collapse>
+                <p x-text="faq.answer"></p>
+              </div>
+            </div>
+          </template>
+        </div>
+      </section>
     </div>
 
     <footer>
-      <div class="container grid grid-cols-3 py-28">
+      <div
+        class="container flex flex-col items-center gap-y-16 pb-28 pt-8 text-center lg:grid lg:grid-cols-3 lg:items-start lg:text-left"
+      >
         <div>
           <div class="footer-title">Product</div>
           <ul class="footer-list">
-            <li>Proposals</li>
-            <li>Contracts</li>
-            <li>Invoicing</li>
-            <li>Client CRM</li>
-            <li>Time Tracking</li>
-            <li>Task Tracking</li>
-            <li>Forms</li>
-            <li>Accounting</li>
-            <li>Bonsai Tax</li>
-            <li>Bonsai Crash</li>
+            <li><a href="#">Proposals</a></li>
+            <li><a href="#">Contracts</a></li>
+            <li><a href="#">Invoicing</a></li>
+            <li><a href="#">Client CRM</a></li>
+            <li><a href="#">Time Tracking</a></li>
+            <li><a href="#">Task Tracking</a></li>
+            <li><a href="#">Forms</a></li>
+            <li><a href="#">Accounting</a></li>
+            <li><a href="#">Bonsai Tax</a></li>
+            <li><a href="#">Bonsai Crash</a></li>
           </ul>
 
           <ul class="footer-list mt-8">
-            <li class="active">Pricing</li>
-            <li>Bonsai Reviews</li>
+            <a href="">
+              <li class="active">Pricing</li>
+            </a>
+            <li><a href="#">Bonsai Reviews</a></li>
           </ul>
         </div>
 
@@ -190,28 +250,74 @@
           <div class="footer-title">Free Resources</div>
 
           <ul class="footer-list">
-            <li>Freelance Resources</li>
-            <li>Freelance Blog by Bonsai</li>
-            <li>How to Write a Contract</li>
-            <li>Online Signature Maker</li>
+            <li><a href="#">Freelance Resources</a></li>
+            <li><a href="#">Freelance Blog by Bonsai</a></li>
+            <li><a href="#">How to Write a Contract</a></li>
+            <li><a href="#">Online Signature Maker</a></li>
           </ul>
 
           <ul class="footer-list mt-8">
-            <li>Self-Employed Taxes Hub</li>
-            <li>Self-Employed Tax Calculator</li>
-            <li>Self-Employed Tax Reductions</li>
+            <li><a href="#">Self-Employed Taxes Hub</a></li>
+            <li><a href="#">Self-Employed Tax Calculator</a></li>
+            <li><a href="#">Self-Employed Tax Reductions</a></li>
           </ul>
 
           <div class="mt-8 font-semibold">Templates</div>
           <ul class="footer-list mt-4">
-            <li>Invoice Templates</li>
-            <li>Proposal Templates</li>
-            <li>Contract Templates</li>
-            <li>Agreement Templates</li>
-            <li>Scope of Work Templates</li>
-            <li>Quote Templates</li>
-            <li>Credit Note Templates</li>
-            <li>Estimate Templates</li>
+            <li>
+              <a href="#"
+                >Invoice Templates<i
+                  class="fas fa-chevron-down ml-1 text-sm"
+                ></i
+              ></a>
+            </li>
+            <li>
+              <a href="#"
+                >Proposal Templates<i
+                  class="fas fa-chevron-down ml-1 text-sm"
+                ></i
+              ></a>
+            </li>
+            <li>
+              <a href="#"
+                >Contract Templates<i
+                  class="fas fa-chevron-down ml-1 text-sm"
+                ></i
+              ></a>
+            </li>
+            <li>
+              <a href="#"
+                >Agreement Templates<i
+                  class="fas fa-chevron-down ml-1 text-sm"
+                ></i
+              ></a>
+            </li>
+            <li>
+              <a href="#"
+                >Scope of Work Templates<i
+                  class="fas fa-chevron-down ml-1 text-sm"
+                ></i
+              ></a>
+            </li>
+            <li>
+              <a href="#"
+                >Quote Templates<i class="fas fa-chevron-down ml-1 text-sm"></i
+              ></a>
+            </li>
+            <li>
+              <a href="#"
+                >Credit Note Templates<i
+                  class="fas fa-chevron-down ml-1 text-sm"
+                ></i
+              ></a>
+            </li>
+            <li>
+              <a href="#"
+                >Estimate Templates<i
+                  class="fas fa-chevron-down ml-1 text-sm"
+                ></i
+              ></a>
+            </li>
           </ul>
         </div>
 
@@ -219,22 +325,26 @@
           <div class="footer-title">Bonsai</div>
 
           <ul class="footer-list">
-            <li>About</li>
-            <li>Careers</li>
-            <li>Support</li>
-            <li>LinkedIn</li>
-            <li>Twitter</li>
-            <li>Provacy Policy</li>
-            <li>Legal</li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Provacy Policy</a></li>
+            <li><a href="#">Legal</a></li>
           </ul>
 
           <ul class="footer-list mt-8">
-            <li>Affiliates</li>
-            <li>Write for Us</li>
+            <li><a href="#">Affiliates</a></li>
+            <li><a href="#">Write for Us</a></li>
           </ul>
 
           <ul class="footer-list mt-8">
-            <li>Comparisons</li>
+            <li>
+              <a href="#"
+                >Comparisons<i class="fas fa-chevron-down ml-1 text-sm"></i
+              ></a>
+            </li>
           </ul>
         </div>
       </div>
@@ -312,6 +422,28 @@
                 "Track wxpenses, identify write-offs, and estimate quarterly taxes easily.",
               price: 10,
               link: " ",
+            },
+          ],
+          faqs: [
+            {
+              question: "How does the 14 day free trial work?",
+              answer:
+                "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum numquam natus enim eos consectetur adipisci sit eaque expedita, aliquam dicta doloremque illo veniam temporibus laborum omnis, ullam dolores necessitatibus aperiam.",
+            },
+            {
+              question: "Can I change plans anytime?",
+              answer:
+                "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum numquam natus enim eos consectetur adipisci sit eaque expedita, aliquam dicta doloremque illo veniam temporibus laborum omnis, ullam dolores necessitatibus aperiam.",
+            },
+            {
+              question: "How do I pause my Bonsai subscription?",
+              answer:
+                "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum numquam natus enim eos consectetur adipisci sit eaque expedita, aliquam dicta doloremque illo veniam temporibus laborum omnis, ullam dolores necessitatibus aperiam.",
+            },
+            {
+              question: "What is your refund policy?",
+              answer:
+                "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum numquam natus enim eos consectetur adipisci sit eaque expedita, aliquam dicta doloremque illo veniam temporibus laborum omnis, ullam dolores necessitatibus aperiam.",
             },
           ],
         };
