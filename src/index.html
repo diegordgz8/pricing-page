@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pricing</title>
+    <title>Pricing - Bonsai Freelance Solutions</title>
 
     <!-- <link href="/dist/css/styles.css" rel="stylesheet"> -->
-    <link href="/dist/css/dev.css" rel="stylesheet" />
+    <link href="/dist/css/styles.css" rel="stylesheet" />
 
     <!-- Alpine Plugins -->
     <script
@@ -28,11 +28,17 @@
   <body x-data="data">
     <header>
       <div class="grid grid-cols-3 items-center gap-4 px-24 pt-6">
-        <img src="/assets/img/bonsai-logo.svg" />
+        <a class="w-fit" href="#"
+          ><img class="h-8" src="/assets/img/bonsai-logo.svg"
+        /></a>
 
-        <nav class="flex items-center justify-center gap-12 text-lg">
+        <nav class="flex items-center justify-center text-lg">
           <template x-for="item in headerMenu">
-            <div class="relative" x-data="dropdown">
+            <div
+              class="relative px-6 py-2"
+              x-data="dropdown"
+              @mouseover="toggle"
+            >
               <div class="flex items-center">
                 <a href="" x-text="item.title"></a>
                 <template x-if="item.options?.length > 0">
@@ -43,7 +49,7 @@
               </div>
               <template x-if="item.options?.length > 0">
                 <div
-                  class="right-100 top-100 absolute flex w-52 flex-col gap-4 rounded bg-white px-4 py-3 transition-all"
+                  class="absolute -bottom-2 -right-0 flex w-52 flex-col gap-4 rounded bg-white px-4 py-3 transition-all"
                   x-show="open"
                   x-transition
                 >
@@ -192,7 +198,7 @@
         </div>
       </section>
 
-      <section class="py-24" id="faq">
+      <section class="px-36 py-24" id="faq">
         <h1 class="text-center text-3xl text-theme-500">
           Frequently Asked Questions
         </h1>
@@ -207,7 +213,10 @@
                   @click="open = !open;"
                 >
                   <span x-text="faq.question"></span>
-                  <i class="fas fa-chevron-down opacity-50"></i>
+                  <i
+                    class="fas fa-chevron-down opacity-50 transition-transform duration-300"
+                    :class="open && '-rotate-180'"
+                  ></i>
                 </button>
               </h2>
               <div class="text-lg" x-show="open" x-collapse>
@@ -357,15 +366,159 @@
             {
               title: "Product",
               options: [
-                { title: "Menu Option 1", options: [] },
-                { title: "Menu Option 2", options: [] },
+                {
+                  title: "Bonsai Workflow",
+                  description:
+                    "Look professional, win more clients and manage tour business from one place",
+                  options: [
+                    {
+                      title: "Invoices",
+                      description:
+                        "Get paid faster with automatic invoicing, online payments and more",
+                      icon: "fa-invoice",
+                    },
+                    {
+                      title: "Proposals",
+                      description:
+                        "Create client-winning proposals with open receipts, custom packages and electrocnic approvals",
+                      icon: "",
+                    },
+                    {
+                      title: "Contracts",
+                      description:
+                        "Protect your business with fully-customizable contract templates. Edit and e-sign hassle free",
+                      icon: "",
+                    },
+                    {
+                      title: "Client CRM",
+                      description:
+                        "Add leads, manage existing clients and track projects easily from one place",
+                      icon: "fa-people",
+                    },
+                    {
+                      title: "Forms & Automations",
+                      description:
+                        "Boost client intake and automate feedback with custom web forms and questionaire",
+                      icon: "",
+                    },
+                    {
+                      title: "Time Tracking",
+                      description:
+                        "Stay organized with Bonsai's all-in-one time tracker, automatized timesheets and biliing system",
+                      icon: "fa-clock",
+                    },
+                    {
+                      title: "Accounting",
+                      description:
+                        "Manage your finances easily with income reports, expense tracking, tax reminders and more",
+                      icon: "",
+                    },
+                    {
+                      title: "Task Tracking",
+                      description:
+                        "Stress-free task management with project templates and integrated timesheets",
+                      icon: "",
+                    },
+                  ],
+                },
+                {
+                  title: "Bonsai Tax",
+                  description:
+                    "Track expenses, maximize tax write-offs, and estimate taxes without the headache",
+                  options: [],
+                },
+                {
+                  title: "Bonsai Cash",
+                  description:
+                    "Bonsai's all-in-one financial hub: No fees and lightning fast payouts",
+                  options: [],
+                },
               ],
             },
             {
               title: "Templates",
               options: [
-                { title: "Menu Option 1", options: [] },
-                { title: "Menu Option 2", options: [] },
+                {
+                  title: "Contract Templates",
+                  options: [
+                    { title: "Free Contract Maker", link: "#" },
+                    {
+                      title: "Social Mdia Management Contract Template",
+                      link: "#",
+                    },
+                    { title: "Graphic Design Contract Template", link: "#" },
+                    { title: "Digital Marketing Contract Template", link: "#" },
+                  ],
+                },
+                {
+                  title: "Proposal Templates",
+                  options: [
+                    { title: "Graphic Design Proposal Template", link: "#" },
+                    { title: "Business Proposal Template", link: "#" },
+                    { title: "Brand Ambassador Proposal Template", link: "#" },
+                    { title: "Data Entry Proposal Letter Template", link: "#" },
+                  ],
+                },
+                {
+                  title: "Invoice Templates",
+                  options: [
+                    { title: "Social Media Invoice Template", link: "#" },
+                    { title: "Contractor Invoice Template", link: "#" },
+                    { title: "Web Design Invoice Template", link: "#" },
+                    { title: "Influencer Invoice Template", link: "#" },
+                  ],
+                },
+                {
+                  title: "Agreement Templates",
+                  options: [
+                    { title: "Influencer Agreement Template", link: "#" },
+                    {
+                      title: "Influencer Collaboration Agreement Template",
+                      link: "#",
+                    },
+                    { title: "Monthly Retainer Agreement Template", link: "#" },
+                    { title: "Writer Agreement Template", link: "#" },
+                  ],
+                },
+                {
+                  title: "Quote Templates",
+                  options: [
+                    { title: "Web Design Quotation Template", link: "#" },
+                    { title: "Interior Design Quotation Template", link: "#" },
+                    {
+                      title: "Digital Marketing Quotation Template",
+                      link: "#",
+                    },
+                    { title: "Video Production Quotation Template", link: "#" },
+                  ],
+                },
+                {
+                  title: "Scope of Work Templates",
+                  options: [
+                    {
+                      title: "Website Developemt Scope of Work Template",
+                      link: "#",
+                    },
+                    {
+                      title: "Digital Marketing Scope of Work Template",
+                      link: "#",
+                    },
+                    { title: "Consultant Scope of Work Template", link: "#" },
+                    {
+                      title: "Interior Design Scope of Work Template",
+                      link: "#",
+                    },
+                  ],
+                },
+                {
+                  title: "Brief Templates",
+                  options: [
+                    { title: "Design Brief Template", link: "#" },
+                    { title: "Architecture Brief Template", link: "#" },
+                    { title: "Fashion Brief Template", link: "#" },
+                    { title: "Creative Brief Template", link: "#" },
+                  ],
+                },
               ],
             },
             { title: "Pricing" },
