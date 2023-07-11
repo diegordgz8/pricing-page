@@ -1,3 +1,117 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    scroll-behavior: smooth;
+    scroll-padding-top: 30px;
+    background-color: #fcfcfc;
+    color: #4c4d5f;
+    /* color: #f8db62; */
+  }
+}
+
+@layer components {
+  .btn {
+    border: solid 1px transparent;
+    border-radius: 5px;
+    padding: 7px 25px;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: 0.4s;
+  }
+
+  .btn-green {
+    background: #00b289;
+    color: white;
+  }
+
+  .btn-white {
+    background: white;
+    border: solid 1px #00b289;
+    color: #00b289;
+  }
+
+  .btn-green:hover {
+    background: white;
+    border: solid 1px #00b289;
+    color: #00b289;
+  }
+
+  .btn-white:hover {
+    background: #00b289;
+    color: white;
+  }
+
+  /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #00b289;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 30px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #00b289;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .footer-title {
+    @apply mb-10 font-semibold uppercase;
+  }
+
+  .footer-list {
+    @apply flex flex-col gap-1.5 opacity-70;
+  }
+
+  footer .active {
+    color: theme(colors.theme.400);
+  }
+}

@@ -1,19 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing</title>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Pricing</title>
+    <!-- <link href="/dist/css/styles.css" rel="stylesheet"> -->
+    <link href="/dist/css/dev.css" rel="stylesheet" />
 
-	<!-- <link rel="stylesheet" href="/dist/css/styles.css"> -->
-	<link rel="stylesheet" href="/dist/css/dev.css">
+    <script src="js/scripts.js" defer></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </head>
 
-	<script src="js/scripts.js"></script>
-</head>
+  <body>
+    <header>
+      <div class="grid grid-cols-3 items-center gap-4 px-24 pt-6">
+        <div>Bonsai</div>
 
-<body>
+        <nav class="flex items-center justify-center gap-10 text-lg">
+          <a href="">Product</a>
+          <a href="">Templates</a>
+          <a href="">Pricing</a>
+          <a href="">Reviews</a>
+        </nav>
 
-</body>
+        <div class="flex justify-end gap-4">
+          <button class="btn btn-white">Log In</button>
+          <button class="btn btn-green">Start Free</button>
+        </div>
+      </div>
+    </header>
 
+    <div class="container mt-36">
+      <section id="plans">
+        <div class="flex items-center justify-between">
+          <h1 class="text-4xl">Plans & Pricing</h1>
+          <div
+            class="flex items-center justify-between gap-8"
+            x-data="{check: false}"
+          >
+            <span
+              class="w-[90px] font-semibold uppercase transition-all"
+              :class="!check ? 'text-lg' : 'opacity-40'"
+              >Monthly</span
+            >
+            <label
+              class="switch"
+              @click="selected = check ? 'yearly' : 'monthly'"
+            >
+              <input type="checkbox" x-model="check" />
+              <span class="slider round"></span>
+            </label>
+            <span
+              class="w-[65px] justify-self-end font-semibold uppercase transition-all"
+              :class="check ? 'text-lg' : 'opacity-40'"
+              >Yearly</span
+            >
+          </div>
+        </div>
+        <div
+          class="mt-16 grid grid-cols-2 gap-12 xl:grid-cols-3"
+          x-data="{
+          plans: [
+          {
+            title: 'Workflow',
+            price: 19,
+            perks: [
+              'Unlimited Clients and Projects',
+              'Proposals',
+              'Contracts',
+              'Invoicing & Payments',
+              'Client CRM',
+              'Project Management',
+              'Task & Time Tracking',
+              'iOS, Android, Chrome, & Mac Apps'
+            ],
+            popular: false,
+          },
+          {
+            title: 'Workflow Plus',
+            price: 29,
+            perks: [
+              'Everything in Workflow, plus...',
+              'White-labeled client experience',
+              'Client forms and questionaires',
+              'Workflow automations',
+              'Subcontracting (client mode)',
+              'Calendly integration',
+              'Client portal',
+              'Priority support'
+            ],
+            popular: true,
+          }
+          ]
+        }"
+        >
+          <template x-for="plan in plans">
+            <div
+              class="relative overflow-hidden border border-gray-200 bg-white p-14 shadow"
+            >
+              <div class="text-2xl font-semibold" x-text="plan.title"></div>
+              <div class="mt-3">
+                <sup class="text-2xl">$</sup>
+                <span class="text-6xl font-semibold" x-text="plan.price"></span>
+                <span class="text-xl uppercase">/Month</span>
+              </div>
+              <hr class="mt-10 h-[3px] bg-theme-400 opacity-60" />
+              <div class="plan-description mt-10">
+                <ul
+                  class="list-inside list-['✓'] space-y-4 marker:font-bold marker:text-theme-400"
+                >
+                  <template x-for="perk in plan.perks">
+                    <li class="marker:mr-2 marker:block" x-text="' '+perk"></li>
+                  </template>
+                </ul>
+              </div>
+              <button class="btn btn-green mt-12 w-full py-6">
+                Start Free
+              </button>
+
+              <template x-if="plan.popular">
+                <div
+                  class="absolute right-16 top-14 translate-x-[50%] rotate-45 bg-theme-400 py-2 pl-20 pr-24 font-bold uppercase text-white"
+                >
+                  Most Popular
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="container grid grid-cols-3 py-28">
+        <div>
+          <div class="footer-title">Product</div>
+          <ul class="footer-list">
+            <li>Proposals</li>
+            <li>Contracts</li>
+            <li>Invoicing</li>
+            <li>Client CRM</li>
+            <li>Time Tracking</li>
+            <li>Task Tracking</li>
+            <li>Forms</li>
+            <li>Accounting</li>
+            <li>Bonsai Tax</li>
+            <li>Bonsai Crash</li>
+          </ul>
+
+          <ul class="footer-list mt-8">
+            <li class="active">Pricing</li>
+            <li>Bonsai Reviews</li>
+          </ul>
+        </div>
+
+        <div class="justify-self-center">
+          <div class="footer-title">Free Resources</div>
+
+          <ul class="footer-list">
+            <li>Freelance Resources</li>
+            <li>Freelance Blog by Bonsai</li>
+            <li>How to Write a Contract</li>
+            <li>Online Signature Maker</li>
+          </ul>
+
+          <ul class="footer-list mt-8">
+            <li>Self-Employed Taxes Hub</li>
+            <li>Self-Employed Tax Calculator</li>
+            <li>Self-Employed Tax Reductions</li>
+          </ul>
+
+          <div class="mt-8 font-semibold">Templates</div>
+          <ul class="footer-list mt-4">
+            <li>Invoice Templates</li>
+            <li>Proposal Templates</li>
+            <li>Contract Templates</li>
+            <li>Agreement Templates</li>
+            <li>Scope of Work Templates</li>
+            <li>Quote Templates</li>
+            <li>Credit Note Templates</li>
+            <li>Estimate Templates</li>
+          </ul>
+        </div>
+
+        <div class="justify-self-end">
+          <div class="footer-title">Bonsai</div>
+
+          <ul class="footer-list">
+            <li>About</li>
+            <li>Careers</li>
+            <li>Support</li>
+            <li>LinkedIn</li>
+            <li>Twitter</li>
+            <li>Provacy Policy</li>
+            <li>Legal</li>
+          </ul>
+
+          <ul class="footer-list mt-8">
+            <li>Affiliates</li>
+            <li>Write for Us</li>
+          </ul>
+
+          <ul class="footer-list mt-8">
+            <li>Comparisons</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
