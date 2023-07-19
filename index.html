@@ -25,8 +25,9 @@
     <script src="src/js/scripts.js" defer></script>
   </head>
 
-  <body class="text-center md:text-left" x-data="data">
+  <body class="text-center lg:text-left" x-data="data">
     <header>
+      <!-- Desktop Menu -->
       <div class="hidden grid-cols-3 items-center gap-4 px-24 pt-6 xl:grid">
         <a class="w-fit" href="#"
           ><img class="h-8" src="assets/img/bonsai-logo.svg"
@@ -61,8 +62,8 @@
                     <div
                       class="group flex flex-1 items-center"
                       :class="i == 0 ? 'border-none' : ''"
-                      @mouseenter="$dispatch('open-options-1-open', i)"
-                      @mouseleave="$dispatch('open-options-1-close', i)"
+                      @mouseenter="$dispatch('open-options-1-desktop', i)"
+                      @mouseleave="$dispatch('close-options-1-desktop', i)"
                     >
                       <a class="py-6" href="#">
                         <span
@@ -89,10 +90,9 @@
                   x-data="dropdown(menuOption.options[0])"
                   x-show="open"
                   x-transition.duration.300
-                  @open-options-1-open.window="open = $event.detail == 0 ? true : null"
-                  @open-options-1-close.window="$event.detail == 0 ? false : null"
+                  @open-options-1-desktop.window="open = $event.detail == 0 ? true : null"
+                  @close-options-1-desktop.window="$event.detail == 0 ? false : null"
                 >
-                  <!-- <span x-text="open"></span> -->
                   <template x-for="(item, i) in menuOption.options">
                     <a class="flex gap-4 p-8 hover:bg-gray-50" href="#">
                       <i class="far fa-file-lines mt-1.5"></i>
@@ -136,7 +136,7 @@
                     <a
                       class="group flex items-center px-10 py-5 text-[.95rem] hover:bg-gray-50"
                       href="#"
-                      @mouseenter="$dispatch('open-options-2', i)"
+                      @mouseenter="$dispatch('open-options-2-desktop', i)"
                     >
                       <i class="far fa-file-lines mr-2 text-lg"></i>
                       <span class="mr-auto" x-text="item.title"></span>
@@ -157,7 +157,7 @@
                     class="flex flex-col justify-center gap-3 bg-white p-10 pl-8"
                     x-data="{open: i == 0}"
                     x-show="open"
-                    @open-options-2.window="open = $event.detail == i"
+                    @open-options-2-desktop.window="open = $event.detail == i"
                   >
                     <h1
                       class="mb-4 text-xl"
@@ -168,7 +168,7 @@
                     >
                       <a
                         class="flex w-[450px] items-center justify-center border bg-cover py-6 text-[.95rem] transition-transform hover:scale-105"
-                        :class="i % 2 != 1 ? 'bg-[url(\'/assets/img/blob-container-1.svg\')]' : 'bg-[url(\'/assets/img/blob-container-2.svg\')]'"
+                        :class="i % 2 == 0 ? 'bg-[url(\'../../assets/img/blob-container-2.svg\')]' : 'bg-[url(\'../../assets/img/blob-container-1.svg\')]'"
                         href="#"
                         x-text="item.title"
                       ></a>
@@ -202,18 +202,205 @@
           <button class="btn btn-green">Start Free</button>
         </div>
       </div>
+
+      <!-- Mobile Menu -->
+      <div
+        class="container fixed top-0 z-20 flex items-center justify-between bg-white px-6 py-4 xl:hidden"
+      >
+        <a href="#"><img class="w-40" src="assets/img/bonsai-logo.svg" /></a>
+
+        <!-- Mobile Menu Button -->
+        <button class="text-4xl" @click="$dispatch('open-menu')">
+          <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Mobile Menu Container -->
+        <aside
+          class="fixed right-0 top-0 z-10 flex h-screen w-screen flex-col bg-white"
+          x-data="{open: false}"
+          x-show="open"
+          x-transition:enter="transition-transform ease-out duration-300"
+          x-transition:enter-start="translate-x-full"
+          x-transition:enter-end="translate-x-0"
+          x-transition:leave="transition-transform ease-in duration-300"
+          x-transition:leave-start="translate-x-0"
+          x-transition:leave-end="translate-x-full"
+          @open-menu.window="open = true"
+        >
+          <header class="flex items-center justify-between px-6 py-4">
+            <img class="w-[40px]" src="assets/img/bonsai-logo-square.svg" />
+
+            <button class="text-4xl" @click="open = false">
+              <i class="fas fa-close"></i>
+            </button>
+          </header>
+
+          <div class="relative mt-12 h-full px-6">
+            <!-- Menu Level 1 -->
+            <nav class="flex w-full flex-col">
+              <template x-for="(menuOption, i) in headerMenu">
+                <a
+                  href="#"
+                  class="flex items-center border-b border-b-gray-300 py-4"
+                >
+                  <span x-text="menuOption.title"></span>
+                  <template x-if="menuOption.options?.length">
+                    <button
+                      class="ml-auto p-2 text-xs"
+                      @click="$dispatch('open-options-' + i)"
+                    >
+                      <i class="fas fa-chevron-down"></i>
+                    </button>
+                  </template>
+                </a>
+              </template>
+            </nav>
+
+            <div class="mt-8 flex flex-col gap-4">
+              <a href="#" class="btn btn-white">Log In</a>
+              <a href="#" class="btn btn-green">Start Free</a>
+            </div>
+
+            <!-- Menu Level 1.1 -->
+            <div
+              class="absolute right-0 top-0 z-10 h-full w-full bg-white"
+              x-data="{open: false}"
+              x-show="open"
+              x-transition:enter="transition-transform ease-out duration-300"
+              x-transition:enter-start="translate-x-full"
+              x-transition:enter-end="translate-x-0"
+              x-transition:leave="transition-transform ease-in duration-300"
+              x-transition:leave-start="translate-x-0"
+              x-transition:leave-end="translate-x-full"
+              @open-options-0.window="open = true"
+            >
+              <header class="px-6 py-4 text-right">
+                <button class="text-2xl" @click="open = false">
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </header>
+
+              <div class="flex w-full flex-col divide-y px-10">
+                <template x-for="(item, i) in headerMenu[0].options">
+                  <div
+                    class="flex flex-1 items-center text-left"
+                    :class="i == 0 ? 'border-none' : ''"
+                  >
+                    <a class="py-6" href="#">
+                      <span
+                        class="text-xl text-black"
+                        x-text="item.title"
+                      ></span>
+                      <p
+                        class="mt-2 text-[0.9rem] text-black/60"
+                        x-text="item.description"
+                      ></p>
+                    </a>
+
+                    <template x-if="item.options?.length">
+                      <button
+                        class="ml-4 text-xl"
+                        @click="$dispatch('open-options-1-' + i)"
+                      >
+                        <i class="fas fa-chevron-right"></i>
+                      </button>
+                    </template>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- Menu Level 1.1.1 -->
+            <div
+              class="absolute right-0 top-0 z-10 h-full w-full bg-white"
+              x-data="{open: false}"
+              x-show="open"
+              x-transition:enter="transition-transform ease-out duration-300"
+              x-transition:enter-start="translate-x-full"
+              x-transition:enter-end="translate-x-0"
+              x-transition:leave="transition-transform ease-in duration-300"
+              x-transition:leave-start="translate-x-0"
+              x-transition:leave-end="translate-x-full"
+              @open-options-1-0.window="open = true"
+            >
+              <header class="px-6 py-4 text-right">
+                <button class="text-2xl" @click="open = false">
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </header>
+
+              <div
+                class="flex flex-col"
+                x-data="{open: true}"
+                x-show="open"
+                x-transition.duration.300
+              >
+                <template x-for="(item, i) in headerMenu[0].options[0].options">
+                  <a
+                    class="flex items-center gap-4 px-8 py-4 hover:bg-gray-50"
+                    href="#"
+                  >
+                    <i class="far fa-file-lines mt-1.5"></i>
+                    <span class="text-[.95rem]" x-text="item.title"></span>
+                  </a>
+                </template>
+              </div>
+            </div>
+
+            <!-- Menu Level 2.1 -->
+            <div
+              class="absolute right-0 top-0 z-10 h-full w-full bg-white"
+              x-data="{open: false}"
+              x-show="open"
+              x-transition:enter="transition-transform ease-out duration-300"
+              x-transition:enter-start="translate-x-full"
+              x-transition:enter-end="translate-x-0"
+              x-transition:leave="transition-transform ease-in duration-300"
+              x-transition:leave-start="translate-x-0"
+              x-transition:leave-end="translate-x-full"
+              @open-options-1.window="open = true"
+            >
+              <header class="px-6 py-4 text-right">
+                <button class="text-2xl" @click="open = false">
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </header>
+
+              <div
+                class="flex flex-col"
+                x-data="{open: true}"
+                x-show="open"
+                x-transition.duration.300
+              >
+                <template x-for="(item, i) in headerMenu[1].options">
+                  <a
+                    class="flex items-center gap-4 px-8 py-4 hover:bg-gray-50"
+                    href="#"
+                  >
+                    <i class="far fa-file-lines mt-1.5"></i>
+                    <span class="text-[.95rem]" x-text="item.title"></span>
+                  </a>
+                </template>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
     </header>
 
-    <div class="container mt-36">
-      <section id="plans">
+    <div class="container mt-24 lg:mt-36">
+      <!-- Plans Section -->
+      <section
+        x-data="{
+        check: false,
+        getYearlyPrice: price => price*10
+      }"
+      >
         <div
-          class="flex flex-col justify-between gap-y-6 lg:flex-row xl:items-center"
+          class="flex flex-col justify-between gap-y-6 lg:flex-row lg:items-center"
         >
-          <h1 class="text-left text-2xl xl:text-4xl">Plans & Pricing</h1>
-          <div
-            class="flex items-center justify-center gap-4 xl:gap-8"
-            x-data="{check: false}"
-          >
+          <h1 class="text-left text-2xl lg:text-4xl">Plans & Pricing</h1>
+          <div class="flex items-center justify-center gap-4 lg:gap-8">
             <span
               class="w-[90px] font-semibold uppercase transition-all"
               :class="!check ? 'text-lg' : 'opacity-40'"
@@ -235,20 +422,20 @@
         </div>
 
         <div
-          class="mt-8 flex flex-col gap-x-12 gap-y-8 lg:grid lg:grid-cols-2 xl:mt-16 xl:grid-cols-3"
+          class="mt-8 flex flex-col items-center gap-x-12 gap-y-8 md:grid md:grid-cols-2 xl:mt-16 xl:grid-cols-3"
         >
           <template x-for="plan in plans">
             <div
               class="relative overflow-hidden border border-gray-200 bg-white px-6 py-12 text-left shadow xl:p-14"
             >
               <div
-                class="text-xl font-semibold xl:text-2xl"
+                class="text-xl font-semibold sm:text-2xl"
                 x-text="plan.title"
               ></div>
               <div class="mt-3">
                 <sup class="text-2xl">$</sup>
-                <span class="text-6xl font-semibold" x-text="plan.price"></span>
-                <span class="uppercase xl:text-xl">/Month</span>
+                <span class="text-6xl font-semibold" x-text="check ? getYearlyPrice(plan.price) : plan.price"></span>
+                <span class="uppercase xl:text-xl">/<span x-text="check ? 'Year' : 'Month'"></span></span>
               </div>
               <hr class="mt-6 h-[3px] bg-theme-500 opacity-60 xl:mt-10" />
               <div class="plan-description mt-6 xl:mt-10">
@@ -272,14 +459,14 @@
                 </ul>
               </div>
               <button
-                class="btn btn-green mt-4 w-full px-16 py-4 xl:mt-12 xl:py-6"
+                class="btn btn-green mt-4 w-full px-16 py-4 lg:mt-12 lg:py-6"
               >
                 Start Free
               </button>
 
               <template x-if="plan.popular">
                 <div
-                  class="absolute right-16 top-14 w-full translate-x-[50%] rotate-45 bg-theme-500 py-2 pl-4 pr-7 text-center text-xs font-bold uppercase tracking-widest text-white xl:text-base"
+                  class="absolute right-16 top-14 w-full translate-x-[50%] rotate-45 bg-theme-500 py-2 pl-4 pr-7 text-center text-xs font-bold uppercase tracking-widest text-white sm:text-base"
                 >
                   Most Popular
                 </div>
@@ -289,19 +476,20 @@
         </div>
       </section>
 
-      <section class="py-24" id="extras">
-        <h1 class="text-center text-xl xl:text-3xl">
+      <!-- Add-ons Section -->
+      <section class="py-24">
+        <h1 class="text-center text-xl lg:text-3xl">
           Super charge your work with add-ons
         </h1>
 
-        <div class="mt-12 flex flex-col gap-4 xl:mt-16">
+        <div class="mt-12 flex flex-col gap-4 lg:mt-16">
           <template x-for="extra in extras">
             <div
-              class="flex flex-col-reverse gap-y-6 rounded bg-white p-8 shadow-lg shadow-gray-100 lg:flex-row xl:items-center xl:p-10"
+              class="flex flex-col-reverse gap-y-6 rounded bg-white p-8 shadow-lg shadow-gray-100 md:flex-row md:items-center md:p-10"
             >
               <div class="mr-auto text-start">
                 <div
-                  class="text-lg font-semibold xl:text-2xl"
+                  class="text-lg font-semibold lg:text-2xl"
                   x-text="extra.title"
                 ></div>
                 <p
@@ -319,18 +507,18 @@
                 </template>
               </div>
               <template x-if="extra.price == 0"
-                ><span class="text-left text-2xl font-semibold xl:text-3xl"
+                ><span class="text-left text-2xl font-semibold lg:text-3xl"
                   >Free</span
                 ></template
               >
               <template x-if="extra.price > 0">
-                <div class="flex flex-col items-start gap-y-1 xl:items-center">
+                <div class="flex flex-col items-start gap-y-1 lg:items-center">
                   <div
                     class="text-4xl font-semibold"
                     x-text="'$'+extra.price"
                   ></div>
                   <div
-                    class="text-sm font-semibold uppercase opacity-75 xl:font-bold"
+                    class="text-sm font-semibold uppercase opacity-75 lg:font-bold"
                   >
                     /Month
                   </div>
@@ -341,26 +529,25 @@
         </div>
       </section>
 
-      <section
-        class="rounded bg-theme-50 px-6 py-12 xl:px-8 xl:py-24"
-        id="banner"
-      >
+      <!-- Banner Section -->
+      <section class="rounded bg-theme-50 px-6 py-12 lg:px-14 lg:py-24">
         <div
-          class="flex flex-col items-center justify-between gap-y-4 xl:flex-row"
+          class="flex flex-col items-center justify-between gap-y-4 lg:flex-row"
         >
-          <div class="text-xl xl:text-4xl">
+          <div class="text-xl sm:text-2xl md:text-3xl lg:text-4xl">
             <p>It's <span class="text-theme-500">your</span> business.</p>
             <p>We're here to help it grow.</p>
           </div>
-          <button class="btn btn-green px-8 py-4 xl:px-16 xl:py-6">
+          <button class="btn btn-green px-8 py-4 lg:px-16 lg:py-6">
             Start Free
           </button>
         </div>
       </section>
 
-      <section class="px-4 py-24 xl:px-36" id="faq">
+      <!-- FAQs Section -->
+      <section class="px-4 py-24 md:px-20 lg:px-36">
         <h1
-          class="text-center text-2xl font-semibold text-theme-500 xl:text-3xl xl:font-normal"
+          class="text-center text-2xl font-semibold text-theme-500 lg:text-3xl lg:font-normal"
         >
           Frequently Asked Questions
         </h1>
@@ -382,7 +569,7 @@
                 </button>
               </h2>
               <div class="text-lg" x-show="open" x-collapse>
-                <p x-text="faq.answer"></p>
+                <p class="mb-4" x-text="faq.answer"></p>
               </div>
             </div>
           </template>
@@ -436,10 +623,10 @@
           <div class="mt-8 font-semibold">Templates</div>
           <ul class="footer-list mt-4">
             <li x-data="{open: false}">
-              <div class="flex items-center">
+              <div class="flex items-center justify-center lg:justify-start">
                 <a href="#">Invoice Templates</a>
                 <i
-                  class="fas fa-chevron-down ml-1 cursor-pointer text-sm"
+                  class="fas fa-chevron-down ml-2 cursor-pointer text-sm"
                   @click="open = !open"
                 ></i>
               </div>
@@ -461,10 +648,10 @@
               </ul>
             </li>
             <li x-data="{open: false}">
-              <div class="flex items-center">
+              <div class="flex items-center justify-center lg:justify-start">
                 <a href="#">Proposal Templates</a>
                 <i
-                  class="fas fa-chevron-down ml-1 cursor-pointer text-sm"
+                  class="fas fa-chevron-down ml-2 cursor-pointer text-sm"
                   @click="open = !open"
                 ></i>
               </div>
@@ -483,10 +670,10 @@
               </ul>
             </li>
             <li x-data="{open: false}">
-              <div class="flex items-center">
+              <div class="flex items-center justify-center lg:justify-start">
                 <a href="#">Contract Templates</a>
                 <i
-                  class="fas fa-chevron-down ml-1 cursor-pointer text-sm"
+                  class="fas fa-chevron-down ml-2 cursor-pointer text-sm"
                   @click="open = !open"
                 ></i>
               </div>
@@ -508,10 +695,10 @@
               </ul>
             </li>
             <li x-data="{open: false}">
-              <div class="flex items-center">
+              <div class="flex items-center justify-center lg:justify-start">
                 <a href="#">Agreement Templates</a>
                 <i
-                  class="fas fa-chevron-down ml-1 cursor-pointer text-sm"
+                  class="fas fa-chevron-down ml-2 cursor-pointer text-sm"
                   @click="open = !open"
                 ></i>
               </div>
@@ -529,10 +716,10 @@
               </ul>
             </li>
             <li x-data="{open: false}">
-              <div class="flex items-center">
+              <div class="flex items-center justify-center lg:justify-start">
                 <a href="#">Scope of Work Templates</a>
                 <i
-                  class="fas fa-chevron-down ml-1 cursor-pointer text-sm"
+                  class="fas fa-chevron-down ml-2 cursor-pointer text-sm"
                   @click="open = !open"
                 ></i>
               </div>
@@ -549,10 +736,10 @@
               </ul>
             </li>
             <li x-data="{open: false}">
-              <div class="flex items-center">
+              <div class="flex items-center justify-center lg:justify-start">
                 <a href="#">Quote Templates</a>
                 <i
-                  class="fas fa-chevron-down ml-1 cursor-pointer text-sm"
+                  class="fas fa-chevron-down ml-2 cursor-pointer text-sm"
                   @click="open = !open"
                 ></i>
               </div>
@@ -602,10 +789,10 @@
 
           <ul class="footer-list mt-8">
             <li x-data="{open: false}">
-              <div class="flex items-center">
+              <div class="flex items-center justify-center lg:justify-start">
                 <a href="#">Comparisons</a>
                 <i
-                  class="fas fa-chevron-down ml-1 cursor-pointer text-sm"
+                  class="fas fa-chevron-down ml-2 cursor-pointer text-sm"
                   @click="open = !open"
                 ></i>
               </div>

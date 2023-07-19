@@ -106,7 +106,7 @@
   }
 
   .footer-list {
-    @apply flex flex-col items-center gap-1.5 text-gray-500 xl:items-start;
+    @apply flex flex-col items-center gap-1.5 text-gray-500 lg:items-start;
   }
 
   .footer-list a {
