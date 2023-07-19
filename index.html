@@ -61,7 +61,7 @@
                   <template x-for="(item, i) in menuOption.options">
                     <div
                       class="group flex flex-1 items-center"
-                      :class="i == 0 ? 'border-none' : ''"
+                      :class="i == 0 && 'border-none'"
                       @mouseenter="$dispatch('open-options-1-desktop', i)"
                       @mouseleave="$dispatch('close-options-1-desktop', i)"
                     >
@@ -168,7 +168,7 @@
                     >
                       <a
                         class="flex w-[450px] items-center justify-center border bg-cover py-6 text-[.95rem] transition-transform hover:scale-105"
-                        :class="i % 2 == 0 ? 'bg-[url(\'../../assets/img/blob-container-2.svg\')]' : 'bg-[url(\'../../assets/img/blob-container-1.svg\')]'"
+                        :class="i % 2 == 0 ? 'bg-blob-container-2' : 'bg-blob-container-1'"
                         href="#"
                         x-text="item.title"
                       ></a>
@@ -284,7 +284,7 @@
                 <template x-for="(item, i) in headerMenu[0].options">
                   <div
                     class="flex flex-1 items-center text-left"
-                    :class="i == 0 ? 'border-none' : ''"
+                    :class="i == 0 && 'border-none'"
                   >
                     <a class="py-6" href="#">
                       <span
@@ -554,10 +554,10 @@
 
         <div class="mt-8">
           <template x-for="faq in faqs">
-            <div x-data="{open: false}">
+            <div class="sm:text-left" x-data="{open: false}">
               <h2>
                 <button
-                  class="flex w-full items-center justify-between py-2 text-left text-xl transition-colors hover:text-theme-500 xl:text-2xl xl:font-semibold"
+                  class="flex w-full items-center justify-between py-2 text-xl transition-colors hover:text-theme-500 xl:text-2xl xl:font-semibold"
                   :aria-expanded="open"
                   @click="open = !open;"
                 >

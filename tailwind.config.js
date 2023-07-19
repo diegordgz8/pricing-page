@@ -27,6 +27,10 @@ module.exports = {
           900: "#00241b",
         },
       },
+      backgroundImage: {
+        "blob-container-1": "url('../../assets/img/blob-container-1.svg')",
+        "blob-container-2": "url('../../assets/img/blob-container-2.svg')",
+      },
     },
   },
   plugins: [],
